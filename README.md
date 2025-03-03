@@ -14,13 +14,18 @@ This project is a **language learning application** built using the **MERN stack
 ✅ **Hosting:**  
    - Web: Vercel/Netlify/Firebase  
    - Backend: Heroku/Digital Ocean/AWS  
-✅ **Diagrams & Documentation:** ERD, Gantt Chart, Use Case, API Documentation  
-✅ **Remote Access:** The app **must be deployed** (No local instances allowed)  
-✅ **GitHub Submission:** The GitHub repository link must be submitted in the project sign-up sheet  
+    **Diagrams & Documentation:** ERD, Gantt Chart, Use Case, API Documentation  
+    **Remote Access:** The app **must be deployed** (No local instances allowed)  
+    **GitHub Submission:** The GitHub repository link must be submitted in the project sign-up sheet  
 
 ---
 
 ## 📂 Project Structure  
+│── /frontend-web (React.js) 
+│── /mobile-app (React Native) 
+|── /backend (Node.js & Express) 
+│── /database (MongoDB Atlas) 
+│── README.md
 
 ---
 
