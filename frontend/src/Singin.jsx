@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { easeIn, motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import "./App.css";
-import Avatar from "./assets/fun-3d-illustration-american-referee.jpg";
+import Avatar from "./assets/3d-render-avatar-character/9334415.jpg";
+import CreateAccount from "./SignInComponents/CreateAccount";
+
 
 const Signin = () => {
   const [text, setText] = useState("Hola, Have We Met Before?");
   const [isEnglish, setIsEnglish] = useState(true);
+  const [showCreateAccount, setShowCreateAccount] = useState(false);
+  const navigate = useNavigate()
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -18,10 +23,13 @@ const Signin = () => {
 
   return (
     <div className="flex flex-col items-center justify-center text-white">
-      <AvatarPicture />
-      <WelcomeTitle/>
+    <AvatarPicture />
+      <WelcomeTitle />
       <TextBubble text={text} />
-      <Buttons/>
+      <Buttons 
+      onCreateAccount={() => navigate("/create-account")} 
+        onSignIn={()=> navigate("/SignIn")}
+      />
     </div>
   );
 };
@@ -84,7 +92,7 @@ const WelcomeTitle = () =>{
 }
 
 
-const Buttons = () =>{
+const Buttons = ({onCreateAccount, onSignIn}) =>{
 
     return(
         
@@ -93,11 +101,12 @@ const Buttons = () =>{
         <motion.button 
          whileHover={{ scale: 1.1 }}
          whileTap={{ scale: 0.95 }}
-        
+            onClick={onSignIn}
         className="  bg-green-500 text-white font-bold rounded-lg hover:bg-green-700 transition">
           Sí, Sign In
         </motion.button>
         <motion.button 
+         onClick={onCreateAccount}
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
         

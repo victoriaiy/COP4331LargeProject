@@ -35,6 +35,15 @@ body {
   justify-content: center;
   min-width: 320px;
   min-height: 100vh;
+  background-image: 
+    linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.7) ),
+    url(assets/vecteezy_neon-depth-grid-box-virtual-reality-space-background_49698141.jpg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh; /* Full screen */
+  image-rendering: crisp-edges;
+
 }
 
 h1 {
