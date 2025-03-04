@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { easeIn, motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import "./App.css";
-import Avatar from "./assets/react.svg";
+import Avatar from "./assets/3d-render-avatar-character/9334415.jpg";
 import CreateAccount from "./SignInComponents/CreateAccount";
 
 
