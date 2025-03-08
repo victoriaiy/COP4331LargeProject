@@ -21,7 +21,7 @@ const SignInForm = () => {
     console.log("Signing in with:", formData);
 
     // Navigate to home on successful login
-    navigate("/");
+    navigate("/Home");
   };
 
   return (

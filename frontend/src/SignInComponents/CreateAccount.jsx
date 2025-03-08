@@ -18,7 +18,7 @@ const CreateAccount = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Creating account with:", formData);
-    navigate("/")
+    navigate("/Home")
   };
 
   return (
