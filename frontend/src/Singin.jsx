@@ -116,10 +116,11 @@ const WelcomeTitle = () => {
             animate={{ 
                 backgroundImage: `linear-gradient(45deg, ${colorsArray[colorIndex]}, #fff)`,
                 WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent"
+                WebkitTextFillColor: "transparent",
+                opacity: 1, y: 0
             }}
             initial={{ opacity: 0, y: -50 }}
-            animate = {{ opacity: 1, y: 0 }}
+
             transition={{ duration: 1.5, ease: "easeOut" }}
             className="text-6xl font-extrabold absolute top-10 text-center w-full"
         >

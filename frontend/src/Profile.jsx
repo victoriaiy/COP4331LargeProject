@@ -16,7 +16,16 @@ const Profile = () => {
   const [editMode, setEditMode] = useState(false);
   const [newAboutMe, setNewAboutMe] = useState(user.aboutMe);
 
-  
+  /*
+  This is for the api that we are going to create we will always check if we are signed in first before showing the user information 
+ useEffect(() => {
+    axios
+      .get("/api/user-profile") // Replace with actual API endpoint
+      .then((res) => setUser(res.data))
+      .catch((err) => console.error("Error fetching user data:", err));
+  }, []);
+
+  */
 
   // Handle profile update
   const handleSave = () => {
