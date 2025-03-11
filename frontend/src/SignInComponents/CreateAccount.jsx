@@ -31,8 +31,7 @@ const CreateAccount = () => {
     }
 
     try {
-      const response = await axios.post(
-        "http://localhost:5001/auth/register", // Your backend route
+      const response = await axios.post("https://cop4331largeproject-1.onrender.com/auth/register", // Your backend route
         {
           name: formData.username,
           email: formData.email,
