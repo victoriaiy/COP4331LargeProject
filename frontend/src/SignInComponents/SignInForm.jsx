@@ -18,14 +18,13 @@ const SignInForm = () => {
     setError(""); // Reset error state
 
     try {
-      const response = await axios.post(
-        "https://http://localhost:5000/auth/login", // Replace with actual backend URL
-        formData
-      );
+      const response = await axios.post("http://localhost:5001/auth/login", {
+        email: formData.email,
+        password: formData.password,
+      });
 
       // Store JWT token in localStorage
       localStorage.setItem("token", response.data.token);
-      
       // Redirect to Home after successful login
       navigate("/Home");
     } catch (err) {
@@ -41,6 +40,7 @@ const SignInForm = () => {
         transition={{ duration: 0.5, ease: "easeOut" }}
         className="w-full max-w-md p-6 bg-gray-900 rounded-2xl shadow-lg"
       >
+        {error && <p className="text-red-400 text-center">{error}</p>}
         <h2 className="text-2xl font-bold text-center mb-4">Sign In</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Email */}
