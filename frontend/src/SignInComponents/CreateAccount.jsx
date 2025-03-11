@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
 const CreateAccount = () => {
   const [formData, setFormData] = useState({
     username: "",
@@ -9,16 +11,40 @@ const CreateAccount = () => {
     confirmPassword: "",
   });
 
-  const navigate = useNavigate()
+  const [error, setError] = useState(""); // For handling errors
+  const [successMessage, setSuccessMessage] = useState(""); // For showing success
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+   const  handleSubmit =  async (e) => {
     e.preventDefault();
-    console.log("Creating account with:", formData);
-    navigate("/Home")
+    setError(""); // Clear errors
+    setSuccessMessage("");
+
+    // Password validation
+    if (formData.password !== formData.confirmPassword) {
+      setError("❌ Passwords do not match.");
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        "http://localhost:5001/auth/register", // Your backend route
+        {
+          name: formData.username,
+          email: formData.email,
+          password: formData.password,
+        }
+      );
+
+      setSuccessMessage("✅ Account created successfully! Check your email for verification.");
+      setTimeout(() => navigate("/signin"), 3000); // Redirect after 3 sec
+    } catch (err) {
+      setError(err.response?.data?.message || "❌ Registration failed. Try again.");
+    }
   };
 
   return (

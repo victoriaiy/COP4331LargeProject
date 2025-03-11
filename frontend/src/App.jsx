@@ -6,6 +6,7 @@ import Home from './Home'
 import "./App.css"
 import SignInForm from './SignInComponents/SignInForm';
 import Profile from './Profile';
+import VocabChallengeComponent from './Challenges/VocabChallengeComponent';
 
 
 
@@ -22,6 +23,11 @@ const App = () =>{
         <Route path='SignIn' element={<SignInForm/>}/>
         <Route path="Home" element={<Home/>}/>
         <Route path="Profile" element={<Profile/>}/>
+
+
+
+        {/*Routes for challenges*/}
+        <Route path="Vocab" element={<VocabChallengeComponent/>}/>
       </Routes>
   </Router>
   )

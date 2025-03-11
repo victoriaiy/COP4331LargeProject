@@ -1,9 +1,9 @@
 import React from "react";
 import { motion } from "framer-motion";
-
+import { useNavigate } from "react-router-dom";
 
 const Challenges = () =>{
-
+  const navigate = useNavigate();
 
     return(
         <div className="w-full max-w-4xl mt-12 px-6">
@@ -14,6 +14,7 @@ const Challenges = () =>{
           <motion.div
             whileHover={{ scale: 1.05 }}
             className="bg-white p-6 rounded-lg shadow-lg cursor-pointer hover:shadow-2xl transition"
+            onClick={()=>navigate("/Vocab")}
           >
             <h3 className="text-lg font-semibold text-gray-900">Vocabulary Challenge</h3>
             <p className="text-gray-600 mt-2">Test your knowledge of Spanish words.</p>

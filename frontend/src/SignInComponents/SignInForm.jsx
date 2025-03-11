@@ -1,27 +1,36 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import axios from 'axios'
 
 const SignInForm = () => {
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
-
+  const [formData, setFormData] = useState({ email: "",password: ""});
+  const [error, setError] = useState("");
+  //navigate to home if success
   const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    // Placeholder API call (replace with actual authentication logic)
-    console.log("Signing in with:", formData);
+    setError(""); // Reset error state
 
-    // Navigate to home on successful login
-    navigate("/Home");
+    try {
+      const response = await axios.post(
+        "https://http://localhost:5000/auth/login", // Replace with actual backend URL
+        formData
+      );
+
+      // Store JWT token in localStorage
+      localStorage.setItem("token", response.data.token);
+      
+      // Redirect to Home after successful login
+      navigate("/Home");
+    } catch (err) {
+      setError(err.response?.data?.message || "Login failed. Please try again.");
+    }
   };
 
   return (
