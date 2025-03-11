@@ -41,7 +41,7 @@ const CreateAccount = () => {
 
       setSuccessMessage("✅ Account created successfully! Check your email for verification.");
       console.log(response)
-      setTimeout(() => navigate("/signin"), 3000); // Redirect after 3 sec
+      setTimeout(() => navigate("/signin"), 1000); // Redirect after 3 sec
     } catch (err) {
       setError(err.response?.data?.message || "❌ Registration failed. Try again.");
     }
@@ -56,6 +56,7 @@ const CreateAccount = () => {
         className="w-full max-w-md p-6 bg-gray-900 rounded-2xl shadow-lg"
       >
       {error && <p className="text-red-400 text-center">{error}</p>}
+      {successMessage  && <p className="text-green-400 text-center">{successMessage}</p>}
         <h2 className="text-2xl font-bold text-center mb-4">Create an Account</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Username */}
