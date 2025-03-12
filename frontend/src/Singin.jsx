@@ -7,6 +7,7 @@ import Avatar from "./assets/3d-render-avatar-character/9334415.jpg";
 import CreateAccount from "./SignInComponents/CreateAccount";
 import { WiCloudy} from "react-icons/wi";
 import { HiMiniChatBubbleBottomCenterText } from "react-icons/hi2";
+import Reviews from "../ReviewIconComponent/Reviews";
 
 
 
@@ -62,6 +63,11 @@ const AvatarPicture = () => {
 
   return (
    <div className="relative">
+
+   {/*Reviews floating*/}
+    <Reviews/>
+
+   {/*Icons with Image */}
     <WiCloudy className="absolute text-8xl z-10 right-25 bottom-21"/>
     <HiMiniChatBubbleBottomCenterText className="absolute text-7xl z-10 left-25 bottom-24 rotate-12"/>
     <motion.div 
