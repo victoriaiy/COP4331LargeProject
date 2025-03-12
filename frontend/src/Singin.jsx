@@ -105,7 +105,7 @@ const TextBubble = ({ text }) => {
 };
 
 const WelcomeTitle = () => {
-    const title = "YOUR AWESOME APP"; // Replace with your actual title
+    const title = "Habla+"; // Replace with your actual title
     const colorsArray = ["#FF5733", "#33FF57", "#5733FF", "#FFC300", "#FF33A1"];
     const [colorIndex, setColorIndex] = useState(0);
 
