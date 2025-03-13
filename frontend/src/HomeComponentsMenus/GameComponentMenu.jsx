@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import GameVideo from "../assets/GameVideo.mp4"; // Import local video
-import ArcadeTitle from "./StartGame";
+import ArcadeTitle from "https://drive.google.com/file/d/1FFhGKgKqrP8l2LDybohqrzad8099CWUA/view?usp=sharing";
 
 const GameComponentMenu = () => {
   const [randomTime, setRandomTime] = useState(0);
