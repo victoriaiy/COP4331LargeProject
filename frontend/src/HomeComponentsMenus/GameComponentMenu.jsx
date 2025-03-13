@@ -1,12 +1,12 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import GameVideo from "../assets/GameVideo.mp4"; // Import local video
-import ArcadeTitle from "https://drive.google.com/file/d/1FFhGKgKqrP8l2LDybohqrzad8099CWUA/view?usp=sharing";
+import ArcadeTitle from "./StartGame";
 
 const GameComponentMenu = () => {
   const [randomTime, setRandomTime] = useState(0);
   const videoRef = useRef(null);
+    const GameVideo = "https://drive.google.com/uc?export=download&id=1FFhGKgKqrP8l2LDybohqrzad8099CWUA"
 
   useEffect(() => {
     // Get a random time (in seconds) within the video duration range (1 - 10 seconds for example)
@@ -30,15 +30,15 @@ const GameComponentMenu = () => {
       
       <div className="flex flex-col border-10 border-black items-center justify-center h-110 w-200 shadow-2xl max-w-screen max-h-screen mb-10 bg-green-300 rounded-lg">
             <ArcadeTitle/>
-            <video
-                ref={videoRef}
-                className="relative rounded-lg opacity-20 left-0 w-full h-full object-cover "
-                src={GameVideo}
-                autoPlay
-                muted
-                loop
-                onLoadedMetadata={handleVideoLoad} // Set video to random time when loaded
-            />
+           {/* YouTube Video with Random Start Time */}
+            <iframe
+                className="relative rounded-lg opacity-20 left-0 w-full h-full object-cover"
+                src={`https://www.youtube.com/embed/r5FjMBYKo7A?autoplay=1&mute=1&loop=1&start=${randomTime}&controls=0&modestbranding=1&rel=0&showinfo=0&disablekb=1&fs=0&iv_load_policy=3`}
+                title="Game Background Video"
+                frameBorder="0"
+                allow="autoplay; encrypted-media"
+                allowFullScreen
+            ></iframe>
       </div>
 
 

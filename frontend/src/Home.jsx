@@ -25,7 +25,7 @@ const Home = () => {
               transition={{ duration: 0.3, ease: "easeInOut" }}
               className=" w-full flex justify-center"
             >
-              <GameComponentMenu />
+              <GameComponentMenu/>
             </motion.div>
           ) : (
             <motion.div
