@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import { CgProfile } from "react-icons/cg";
 
 
 const Header = () =>{
@@ -28,13 +29,20 @@ const Header = () =>{
           >
             Home
           </button>
-
-          <div className="flex space-x-8">
-            <button className="text-sm  text-white hover:text-blue-500 transition">Game</button>
-            <button 
+          <motion.div
+            initial = {{scale: 1}}
+            whileHover={{
+              scale: 1.2,
+              transition: {ease: "easeInOut"}
+            }}
+            
+          >
+          <CgProfile className="cursor-pointer text-black text-5xl"
             onClick={()=>navigate("/Profile")}
-            className="text-sm text-white hover:text-blue-500 transition">Profile</button>
-          </div>
+
+          />
+          </motion.div>
+
         </div>
       </motion.div>
 
