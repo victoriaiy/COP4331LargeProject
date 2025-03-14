@@ -22,7 +22,7 @@ const Home = () => {
               initial={{ x: -100 }}
               animate={{ x: 0 }}
               exit={{  x: 100 }}
-              transition={{ duration: 0.3, ease: "easeInOut" }}
+              transition={{ duration: 0.1, ease: "easeInOut" }}
               className=" w-full flex justify-center"
             >
               <GameComponentMenu/>
@@ -33,7 +33,7 @@ const Home = () => {
               initial={{  x: -100 }}
               animate={{ x: 0 }}
               exit={{ x: 100 }}
-              transition={{ duration: 0.3, ease: "easeInOut" }}
+              transition={{ duration: 0.1, ease: "easeInOut" }}
               className=" w-full flex justify-center"
             >
             {/*THIS IS THE COMPONENT YOU EDIT ANTHONY */}

@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios'
+import { IoIosCreate } from "react-icons/io";
+
 
 const SignInForm = () => {
   const [formData, setFormData] = useState({ email: "",password: ""});
@@ -33,14 +35,19 @@ const SignInForm = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen text-white">
+    <div className="flex items-center justify-center min-h-screen relative text-white">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
-        className="w-full max-w-md p-6 bg-gray-900 rounded-2xl shadow-lg"
+        className="w-full max-w-md p-6 bg-gray-900 rounded-2xl shadow-lg relative"
       >
         {error && <p className="text-red-400 text-center">{error}</p>}
+        <div 
+          onClick={()=>navigate("/create-account")}
+        className="w-10 h-10 bg-gray-900 shadow-amber-50 shadow-2xl rounded-full absolute top-0 right-0 -translate-y-4 translate-x-4 cursor-pointer flex justify-center items-center ">
+          <IoIosCreate className="text-white text-2xl" />
+        </div>
         <h2 className="text-2xl font-bold text-center mb-4">Sign In</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Email */}

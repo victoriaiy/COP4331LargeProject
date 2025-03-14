@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import "./App.css";
 import { AnimatePresence } from "framer-motion";
 import Avatar from "./assets/3d-render-avatar-character/9334415.jpg";
-import CreateAccount from "./SignInComponents/CreateAccount";
 import { WiCloudy} from "react-icons/wi";
 import { HiMiniChatBubbleBottomCenterText } from "react-icons/hi2";
 import Reviews from "../ReviewIconComponent/Reviews";
