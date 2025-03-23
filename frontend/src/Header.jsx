@@ -2,7 +2,9 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
+import { FiSettings } from "react-icons/fi"; // Icon to replace "Home"
 import ProfileDropdown from "./ProflieComponents/ProfileDropDown";
+import logo from "./assets/AIlogo.png"; // Adjust path as needed
 
 const Header = () => {
     const [headerOpen, setHeaderOpen] = useState(false);
@@ -16,7 +18,6 @@ const Header = () => {
         }, 500);
     }, []);
 
-    // Close dropdown when clicking outside
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -34,38 +35,42 @@ const Header = () => {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: "easeInOut" }}
-            className="w-full bg-white shadow-md fixed top-0 left-0 right-0 h-14 flex items-center justify-center"
+            className="fixed mx-4 mt-2 top-0  w-[calc(100%-2rem)] bg-gray-900/40 backdrop-blur-md rounded-2xl shadow-xl h-16 z-50 flex items-center justify-center"
         >
-            <div className="w-full max-w-6xl flex justify-between items-center px-6">
-                <button
-                    onClick={() => navigate("/Home")}
-                    className="text-sm font-semibold text-white hover:text-blue-500 transition"
-                >
-                    Home
-                </button>
-
-                {/* Profile Icon and Dropdown */}
-                <div className="relative" ref={dropdownRef}>
+            <div className="w-full relative max-w-6xl flex justify-between items-center px-4 sm:px-8">
+                {/* Profile Icon */}
+                <div ref={dropdownRef}>
                     <motion.div
                         initial={{ scale: 1 }}
-                        whileHover={{
-                            scale: 1.2,
-                            transition: { ease: "easeInOut" }
-                        }}
+                        whileHover={{ scale: 1.15, transition: { ease: "easeInOut" } }}
+                        className="cursor-pointer relative"
+                        onClick={() => setDropdownOpen(!dropdownOpen)}
                     >
-
-                        <CgProfile
-                            className="cursor-pointer text-black text-5xl"
-                            onClick={() => setDropdownOpen(!dropdownOpen)}
-                        />
-                        
+                        <CgProfile className="!text-white text-3xl sm:text-4xl" />
+                        {dropdownOpen && <ProfileDropdown />}
                     </motion.div>
-
-                    {dropdownOpen && <ProfileDropdown />}
+                    
                 </div>
 
+                {/* Centered Logo */}
+                <motion.img
+                    src={logo}
+                    alt="HABLA+ Logo"
+                    className="h-10 sm:h-20 object-contain"
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 1, ease: "easeOut" }}
+                />
+
+                {/* Right-side Icon */}
+                <motion.button
+                    onClick={() => console.log("Settings clicked")}
+                    whileHover={{ scale: 1.1 }}
+                    className="!text-white-400 text-2xl sm:text-3xl"
+                >
+                    <FiSettings />
+                </motion.button>
             </div>
-            
         </motion.div>
     );
 };

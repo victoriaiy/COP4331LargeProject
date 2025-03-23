@@ -11,7 +11,7 @@ const Home = () => {
 
 
   return (
-    <div className="relative min-w-screen min-h-screen  bg-amber-50 flex flex-col items-center pt-20">
+    <div className="relative min-w-screen min-h-screen bg-gradient-to-b from-purple-700 via-gray-800 to-black flex flex-col items-center pt-20">
 
       {/* Other Components */}
       <Header />

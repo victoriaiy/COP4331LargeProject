@@ -7,7 +7,7 @@ import Avatar from "./assets/3d-render-avatar-character/9334415.jpg";
 import { WiCloudy} from "react-icons/wi";
 import { HiMiniChatBubbleBottomCenterText } from "react-icons/hi2";
 import Reviews from "../ReviewIconComponent/Reviews";
-
+import logo from "./assets/AIlogo.png"
 
 
 

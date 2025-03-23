@@ -58,7 +58,7 @@ const SignInForm = () => {
             placeholder="Email"
             value={formData.email}
             onChange={handleChange}
-            className="w-full p-3 rounded-xl bg-gray-800 text-white border-none outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-3 rounded-xl  !bg-gray-800 !text-white border-none outline-none focus:ring-2 focus:ring-blue-500"
           />
 
           {/* Password */}
@@ -77,7 +77,7 @@ const SignInForm = () => {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
             type="submit"
-            className="w-full p-3 mt-4 bg-green-600 rounded-xl font-bold text-white shadow-md hover:bg-green-700 transition"
+            className="w-full p-3 mt-4 !bg-purple-500 rounded-xl font-bold text-white shadow-md hover:bg-green-700 transition"
           >
             Sign In
           </motion.button>

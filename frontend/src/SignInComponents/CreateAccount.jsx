@@ -115,7 +115,7 @@ const CreateAccount = () => {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
             type="submit"
-            className="w-full p-3 mt-4 bg-blue-600 rounded-xl font-bold text-white shadow-md hover:bg-blue-700 transition"
+            className="w-full p-3 mt-4 !bg-purple-500 rounded-xl font-bold text-white shadow-md hover:bg-blue-700 transition"
           >
             Create Account
           </motion.button>

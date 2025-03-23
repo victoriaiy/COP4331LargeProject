@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import gameMenuImage from "../assets/gameMenuImage.png";
 import { useNavigate } from "react-router-dom";
-import logo from "../assets/logoForHabla+.png"
+import logo from "../assets/theGamewController.png"
 
 const GameComponentMenu = () => {
   const navigate = useNavigate()
@@ -15,7 +15,7 @@ const GameComponentMenu = () => {
   return (
     <div 
       onClick={()=>navigateToGame()}
-    className="flex relative z-0 flex-col border-8 border-purple-700 items-center h-130 w-300 justify-center  shadow-purple-500/50 shadow-2xl max-w-screen mb-10 rounded-2xl overflow-hidden bg-black">
+    className="flex  cursor-pointer relative z-0 flex-col border-8 border-white items-center h-130 w-300 justify-center  shadow-purple-500/50 shadow-2xl max-w-screen mb-10 rounded-2xl overflow-hidden bg-black">
       {/* Background Image */}
       <img
         className="absolute h-full w-full object-cover opacity-60"
@@ -23,14 +23,13 @@ const GameComponentMenu = () => {
         alt="Menu Background"
       />
 
-      {/* Title */}
       <motion.img
 
         src={logo}
         initial={{ opacity: 0, y: -30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1.2 }}
-        className=" text-white text-6xl md:text-7xl font-extrabold tracking-wide drop-shadow-[0_0_20px_rgba(168,85,247,0.8)]"
+        className=" w-100  rounded-full backdrop-opacity-100"
       >
       </motion.img>
 
