@@ -1,57 +1,62 @@
-
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import ArcadeTitle from "./StartGame";
-import Static from "../assets/static-glitch.gif";
+import gameMenuImage from "../assets/gameMenuImage.png";
+import { useNavigate } from "react-router-dom";
+import logo from "../assets/logoForHabla+.png"
 
 const GameComponentMenu = () => {
-  const [randomTime, setRandomTime] = useState(0);
-  const videoRef = useRef(null);       
-  const [staticEffect, setStaticEffect] = useState(true) 
+  const navigate = useNavigate()
 
-  useEffect(()=>{
-
-    setTimeout(()=>setStaticEffect(false), 4000)
-  },[])
-
-  useEffect(() => {
-    // Get a random time (in seconds) within the video duration range (1 - 10 seconds for example)
-    const minTime = 5; // Set the minimum start time (adjust if needed)
-    const maxTime = 50; // Set the maximum start time (adjust if needed)
-    const randomStartTime = Math.floor(Math.random() * (maxTime - minTime)) + minTime;
-    
-    setRandomTime(randomStartTime);
-  }, []);
-
-  // Set video start time when metadata loads
-  const handleVideoLoad = () => {
-    if (videoRef.current) {
-      videoRef.current.currentTime = randomTime;
-      videoRef.current.play();
-    }
-  };
+  function navigateToGame(){
+    window.location.href = "https://infinite-runner-seven.vercel.app/"
+  }
+ 
 
   return (
+    <div 
+      onClick={()=>navigateToGame()}
+    className="flex relative z-0 flex-col border-8 border-purple-700 items-center h-130 w-300 justify-center  shadow-purple-500/50 shadow-2xl max-w-screen mb-10 rounded-2xl overflow-hidden bg-black">
+      {/* Background Image */}
+      <img
+        className="absolute h-full w-full object-cover opacity-60"
+        src={gameMenuImage}
+        alt="Menu Background"
+      />
 
-      
-      <div className="flex  relative flex-col border-10 border-black items-center justify-center h-110 w-200 shadow-2xl max-w-screen max-h-screen mb-10 bg-green-300 rounded-lg">
-            <ArcadeTitle/>
-           {/* YouTube Video with Random Start Time */}
-           <div className="absolute w-full h-full opacity-40 bg-green-300 z-1">
+      {/* Title */}
+      <motion.img
 
-           </div>
-           {staticEffect ? <img className=" absolute z-1 w-full h-full " src={Static}></img> : <></>}
-            <iframe
-                className="relative w-full h-full object-cover"
-                src={`https://www.youtube.com/embed/r5FjMBYKo7A?autoplay=1&mute=1&loop=1&start=${randomTime}&controls=0&modestbranding=1&rel=0&showinfo=0&disablekb=1&fs=0&iv_load_policy=3`}
-                title="Game Background Video"
-                frameBorder="0"
-                allow="autoplay; encrypted-media"
-                allowFullScreen
-            ></iframe>
-      </div>
+        src={logo}
+        initial={{ opacity: 0, y: -30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1.2 }}
+        className=" text-white text-6xl md:text-7xl font-extrabold tracking-wide drop-shadow-[0_0_20px_rgba(168,85,247,0.8)]"
+      >
+      </motion.img>
 
+      {/* Press Start Prompt */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: [0, 1, 0] }}
+        transition={{
+          duration: 1.5,
+          repeat: Infinity,
+          delay: 1.5,
+          ease: "easeInOut",
+        }}
+        className="mt-10 text-purple-300 text-2xl md:text-3xl font-mono tracking-widest"
+      >
+        CLICK ANYWHERE TO PLAY
+      </motion.div>
 
+      {/* Optional glow ring or decoration */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 2, ease: "easeOut" }}
+        className="absolute rounded-full border-[2px] border-purple-600 w-[600px] h-[600px] blur-2xl opacity-20"
+      />
+    </div>
   );
 };
 

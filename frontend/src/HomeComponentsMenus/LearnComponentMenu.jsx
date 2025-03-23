@@ -16,7 +16,7 @@ const LearnComponentMenu = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-110 w-200 shadow-2xl max-w-screen max-h-screen mb-10 bg-gray-500 rounded-lg"
+    <div className="flex flex-col items-center justify-center h-130 w-300 shadow-2xl max-w-screen max-h-screen mb-10 bg-gray-500 rounded-lg"
     >
     {/* Background Video */}
 

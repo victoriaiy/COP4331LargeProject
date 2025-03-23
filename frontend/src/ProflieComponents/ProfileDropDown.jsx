@@ -16,7 +16,7 @@ const ProfileDropdown = () => {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, ease: "easeOut" }}
-            className="absolute right-0 mt-3 w-35 bg-white shadow-lg  flex-box  p-2 rounded-md py-2 border border-gray-200 z-20"
+            className="absolute right-0 mt-3 w-35 bg-white shadow-lg  flex-box  p-2 rounded-md py-2 border border-gray-200 "
         >
             <div className="bg-white absolute top-0 right-3 w-4 h-4 -translate-y-2 - rotate-45"></div>
             <button
