@@ -126,8 +126,12 @@ async function getUniqueUserId() {
 
 const sgMail = require('@sendgrid/mail');
 
-sgMail.setApiKey(process.env.SENDGRID_API_KEY || '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');
-//secret maybe hide?^***
+/*API KEY GOES HERE TOOK OUR FOR NOW SO GIT DOESNT GET TAKEN DOWN!!!!!
+* IS ON SERVER IF NEEDED
+*
+*
+*
+*/
 
 
 // Function to send the verification email
