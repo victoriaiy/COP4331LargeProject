@@ -1,5 +1,6 @@
 //UPDATE LINKS AFTER WE HAVE DOMAIN!!!
 
+const md5 = require('./md5');
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -46,9 +47,7 @@ app.post('/api/signup', async (req, res) => {
     FirstName: firstName,
     LastName: lastName,
     UserName: username,
-    Password: password, // hash this mf!!!!
-    //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    // *************************************
+    Password: md5(password),
     Email: email,
 
     Verified: false,   
@@ -81,7 +80,7 @@ app.post('/api/login', async (req, res) => {
 
   try {
     const db = client.db("POOSD");
-    const user = await db.collection("Users").findOne({ UserName: username, Password: password });
+    const user = await db.collection("Users").findOne({ UserName: username, Password: md5(password) });
 
     if (user) {
       res.status(200).json({
@@ -126,12 +125,7 @@ async function getUniqueUserId() {
 
 const sgMail = require('@sendgrid/mail');
 
-/*API KEY GOES HERE TOOK OUR FOR NOW SO GIT DOESNT GET TAKEN DOWN!!!!!
-* IS ON SERVER IF NEEDED
-*
-*
-*
-*/
+// need new key and hide ---> sgMail.setApiKey(process.env.SENDGRID_API_KEY || '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');
 
 
 // Function to send the verification email
@@ -226,7 +220,7 @@ app.post('/api/resetpassword', async (req, res) => {
     // Change password and remove token and its expiration
     await db.collection("Users").updateOne(
       { PasswordResetToken: token },
-      { $set: { Password: newPassword }, $unset: { PasswordResetToken: "", PasswordResetExpires: "" } }
+      { $set: { Password: md5(newPassword) }, $unset: { PasswordResetToken: "", PasswordResetExpires: "" } }
     );
 
     res.status(200).json({ message: "Password has been reset successfully" });
