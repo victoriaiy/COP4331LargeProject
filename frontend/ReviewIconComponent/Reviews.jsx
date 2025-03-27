@@ -89,7 +89,7 @@ const ReviewComponent = () => {
       {floatingReviews.map((review) => (
         <motion.div
           key={review.id}
-          className=" fixed left-0 px-4 py-2 bg-black text-white rounded-lg shadow-lg text-sm"
+          className=" fixed  border-2 border-purple-400 left-0 px-4 py-2 bg-black text-white rounded-lg shadow-lg text-sm"
           initial={{ x: review.x, y: window.innerHeight, opacity: 0 }} // Starts at the bottom
           animate={{ y: window.innerHeight * 0.45, opacity: 1 }} // Stops at 40% of screen height
           exit={{ opacity: 0 }}
