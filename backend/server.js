@@ -1,5 +1,7 @@
 //UPDATE LINKS AFTER WE HAVE DOMAIN!!!
 
+require('dotenv').config();
+
 const md5 = require('./md5');
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -123,30 +125,26 @@ async function getUniqueUserId() {
 
 
 
-const sgMail = require('@sendgrid/mail');
-
-// need new key and hide ---> sgMail.setApiKey(process.env.SENDGRID_API_KEY || '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');
+const { Resend } = require('resend');
+require('dotenv').config();
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 
 // Function to send the verification email
-function sendVerificationEmail(email, firstName, verificationToken) {
+async function sendVerificationEmail(email, firstName, verificationToken) {
   const verificationLink = `http://137.184.20.147:5001/verify?token=${verificationToken}`;
-
-  const msg = {
-    to: email,
-    from: 'group13cop4331@gmail.com', 
-    subject: 'Email Verification',
-    text: `Hello ${firstName}, click here to verify: ${verificationLink}`
-  };
-
-  sgMail
-    .send(msg)
-    .then(() => {
-      console.log('Verification email sent');
-    })
-    .catch(error => {
-      console.error('Error sending verification email:', error.response ? error.response.body : error);
+  
+  try {
+    await resend.emails.send({
+      from: 'Habla+ <onboarding@resend.dev>',  // You can change after domain verify
+      to: email,
+      subject: 'Email Verification',
+      text: `Hello ${firstName}, click here to verify: ${verificationLink}`,
     });
+    console.log('Verification email sent');
+  } catch (error) {
+    console.error('Error sending verification email:', error);
+  }
 }
 
 app.get('/verify', async (req, res) => {
@@ -172,7 +170,7 @@ app.get('/verify', async (req, res) => {
 
 //change password
 
-// first send email prompt to change
+// send password reset email
 app.post('/api/resetpasswordemail', async (req, res) => {
   const { email } = req.body;
   try {
@@ -181,25 +179,46 @@ app.post('/api/resetpasswordemail', async (req, res) => {
     if (!user) {
       return res.status(404).json({ error: "No account with that email found" });
     }
-    // create token valid for 1 hour
+
     const passwordResetToken = Math.random().toString(36).substr(2, 15);
     const passwordResetExpires = new Date();
     passwordResetExpires.setHours(passwordResetExpires.getHours() + 1);
 
-    // update collection with reset token and expiration
     await db.collection("Users").updateOne(
       { Email: email },
-      { $set: { PasswordResetToken: passwordResetToken, PasswordResetExpires: passwordResetExpires } }
+      {
+        $set: {
+          PasswordResetToken: passwordResetToken,
+          PasswordResetExpires: passwordResetExpires
+        }
+      }
     );
 
-    // Send the password reset email
-    sendPasswordResetEmail(email, user.FirstName, passwordResetToken);
+    await sendPasswordResetEmail(email, user.FirstName, passwordResetToken);
 
     res.status(200).json({ message: "Password reset email sent" });
   } catch (e) {
     res.status(500).json({ error: e.toString() });
   }
 });
+
+// first send email prompt to change
+async function sendPasswordResetEmail(email, firstName, passwordResetToken) {
+  const resetLink = `http://137.184.20.147:5001/resetpassword?token=${passwordResetToken}`;
+  try {
+    await resend.emails.send({
+      from: 'Habla+ <onboarding@resend.dev>',
+      to: email,
+      subject: 'Reset Password',
+      text: `Hello ${firstName}, click here to reset your password: ${resetLink}`
+    });
+    console.log('Password reset email sent');
+  } catch (error) {
+    console.error('Error sending password reset email:', error);
+  }
+}
+
+
 
 // Second check if expired otherwise change
 
@@ -229,28 +248,6 @@ app.post('/api/resetpassword', async (req, res) => {
   }
 });
 
-
-//function to send password reset email
-function sendPasswordResetEmail(email, firstName, passwordResetToken) {
-
-  const resetLink = `http://137.184.20.147:5001/resetpassword?token=${passwordResetToken}`;
-  const msg = {
-    to: email,
-    from: 'group13cop4331@gmail.com',
-    subject: 'Reset Password',
-    text: `Hello ${firstName}, click here to reset your password: ${resetLink}  \n\nFor testing reset token is: ${passwordResetToken}`
-
-  };
-  sgMail
-    .send(msg)
-    .then(() => {
-      console.log('Password reset email sent');
-    })
-    .catch(error => {
-      console.error('Error sending password reset email:', error.response ? error.response.body : error);
-    });
-
-  }
 
 
 app.listen(5001, () => {
