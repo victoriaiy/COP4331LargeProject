@@ -2,7 +2,7 @@ const express = require('express');
 const axios = require('axios');
 const router = express.Router();
 
-const API_KEY = process.env.MW_API_KEY;
+const API_KEY = process.env.SPANISH_DICT;
 
 router.get('/translate', async (req, res) => {
   const { word } = req.query;
