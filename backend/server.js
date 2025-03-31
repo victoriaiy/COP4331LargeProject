@@ -248,6 +248,77 @@ app.post('/api/resetpassword', async (req, res) => {
   }
 });
 
+// delete user
+app.delete('/api/delete', async (req, res) => {
+  const { userId } = req.body;
+
+  if (!userId) {
+    return res.status(400).json({ error: "Need user ID" });
+  }
+
+  try {
+    const db = client.db("POOSD");
+    const result = await db.collection("Users").deleteOne({ UserId: userId });
+
+    if (result.deletedCount === 0) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    res.status(200).json({ message: "User deleted" });
+  } catch (e) {
+    res.status(500).json({ error: e.toString() });
+  }
+});
+
+// get level
+app.post('/api/getlevel', async (req, res) => {
+  const { userId } = req.body;
+
+  if (!userId) {
+    return res.status(400).json({ error: "Need UserID" });
+  }
+
+  try {
+    const db = client.db("POOSD");
+    const user = await db.collection("Users").findOne({ UserId: userId });
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    res.status(200).json({ level: user.ProgressLevel });
+  } catch (e) {
+    res.status(500).json({ error: e.toString() });
+  }
+});
+
+// add level
+app.post('/api/addlevel', async (req, res) => {
+  const { userId, amount } = req.body;
+
+  if (!userId || typeof amount !== 'number') {
+    return res.status(400).json({ error: "userId and amount of levels needed" });
+  }
+
+  try {
+    const db = client.db("POOSD");
+    const user = await db.collection("Users").findOne({ UserId: userId });
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const result = await db.collection("Users").findOneAndUpdate(
+      { UserId: userId },
+      { $inc: { ProgressLevel: amount } }
+    );
+
+    res.status(200).json({ message: `Level increased by ${amount}` });
+  } catch (e) {
+    res.status(500).json({ error: e.toString() });
+  }
+});
+
 
 
 app.listen(5001, () => {
