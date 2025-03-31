@@ -1,5 +1,3 @@
-//UPDATE LINKS AFTER WE HAVE DOMAIN!!!
-
 require('dotenv').config();
 
 const md5 = require('./md5');
@@ -39,15 +37,13 @@ client.connect()
 
 // signup
 app.post('/api/signup', async (req, res) => {
-  const { firstName, lastName, username, password, email } = req.body;
+  const { username, password, email } = req.body;
 
   const newUserId = await getUniqueUserId()
   const verificationToken = Math.random().toString(36).substr(2, 15);
 
   const newUser = {
     UserId: newUserId,
-    FirstName: firstName,
-    LastName: lastName,
     UserName: username,
     Password: md5(password),
     Email: email,
@@ -67,7 +63,7 @@ app.post('/api/signup', async (req, res) => {
     const db = client.db("POOSD"); // Database name
     await db.collection("Users").insertOne(newUser); // Collections name
 
-    sendVerificationEmail(email, firstName, verificationToken);
+    sendVerificationEmail(email, username, verificationToken);
 
     res.status(200).json({ error: "" });
   } catch (e) {
@@ -87,16 +83,12 @@ app.post('/api/login', async (req, res) => {
     if (user) {
       res.status(200).json({
         id: user.UserId,
-        firstName: user.FirstName,
-        lastName: user.LastName,
         email: user.Email,
         error: ""
       });
     } else {
       res.status(401).json({
         id: -1,
-        firstName: "",
-        lastName: "",
         email: "",
         error: "Invalid user name/password"
       });
@@ -126,20 +118,20 @@ async function getUniqueUserId() {
 
 
 const { Resend } = require('resend');
-require('dotenv').config();
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 
+
 // Function to send the verification email
-async function sendVerificationEmail(email, firstName, verificationToken) {
-  const verificationLink = `http://137.184.20.147:5001/verify?token=${verificationToken}`;
+async function sendVerificationEmail(email, username, verificationToken) {
+  const verificationLink = `http://habla-plus.xyz:5001/verify?token=${verificationToken}`;
   
   try {
     await resend.emails.send({
       from: 'Habla+ <onboarding@resend.dev>',  // You can change after domain verify
       to: email,
       subject: 'Email Verification',
-      text: `Hello ${firstName}, click here to verify: ${verificationLink}`,
+      text: `Hello ${username}, click here to verify: ${verificationLink}`,
     });
     console.log('Verification email sent');
   } catch (error) {
@@ -194,7 +186,7 @@ app.post('/api/resetpasswordemail', async (req, res) => {
       }
     );
 
-    await sendPasswordResetEmail(email, user.FirstName, passwordResetToken);
+    await sendPasswordResetEmail(email, user.Username, passwordResetToken);
 
     res.status(200).json({ message: "Password reset email sent" });
   } catch (e) {
@@ -203,14 +195,14 @@ app.post('/api/resetpasswordemail', async (req, res) => {
 });
 
 // first send email prompt to change
-async function sendPasswordResetEmail(email, firstName, passwordResetToken) {
-  const resetLink = `http://137.184.20.147:5001/resetpassword?token=${passwordResetToken}`;
+async function sendPasswordResetEmail(email, username, passwordResetToken) {
+  const resetLink = `http://habla-plus.xyz:5001/resetpassword?token=${passwordResetToken}`;
   try {
     await resend.emails.send({
       from: 'Habla+ <onboarding@resend.dev>',
       to: email,
       subject: 'Reset Password',
-      text: `Hello ${firstName}, click here to reset your password: ${resetLink}`
+      text: `Hello ${username}, click here to reset your password: ${resetLink}`
     });
     console.log('Password reset email sent');
   } catch (error) {
@@ -314,6 +306,58 @@ app.post('/api/addlevel', async (req, res) => {
     );
 
     res.status(200).json({ message: `Level increased by ${amount}` });
+  } catch (e) {
+    res.status(500).json({ error: e.toString() });
+  }
+});
+
+
+//profile picture
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
+
+// Multer storage config for profile_pictures
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'profile_pictures/');
+  },
+  filename: function (req, file, cb) {
+    const ext = path.extname(file.originalname);
+    const filename = `${req.body.userId}_${Date.now()}${ext}`;
+    cb(null, filename);
+  }
+});
+
+const upload = multer({ storage: storage });
+
+// Make profile_pictures publicly accessible
+app.use('/profile_pictures', express.static(path.join(__dirname, 'profile_pictures')));
+
+// Upload profile picture API
+app.post('/api/profilepicture', upload.single('profilePicture'), async (req, res) => {
+  const { userId } = req.body;
+
+  if (!userId || !req.file) {
+    return res.status(400).json({ error: "No id or file" });
+  }
+
+  try {
+    const db = client.db("POOSD");
+    const user = await db.collection("Users").findOne({ UserId: userId });
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const imagePath = `/profile_pictures/${req.file.filename}`;
+
+    await db.collection("Users").updateOne(
+      { UserId: userId },
+      { $set: { ProfilePicture: imagePath } }
+    );
+
+    res.status(200).json({ message: "Profile picture uploaded", imageUrl: imagePath });
   } catch (e) {
     res.status(500).json({ error: e.toString() });
   }
