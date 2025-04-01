@@ -7,6 +7,7 @@ import "./App.css"
 import SignInForm from './SignInComponents/SignInForm';
 import Profile from './Profile';
 import VocabChallengeComponent from './Challenges/VocabChallengeComponent';
+import SettingsPage from './Setting';
 
 
 
@@ -23,6 +24,7 @@ const App = () =>{
         <Route path='SignIn' element={<SignInForm/>}/>
         <Route path="Home" element={<Home/>}/>
         <Route path="Profile" element={<Profile/>}/>
+        <Route path="Setting" element={<SettingsPage/>}/>
 
 
 

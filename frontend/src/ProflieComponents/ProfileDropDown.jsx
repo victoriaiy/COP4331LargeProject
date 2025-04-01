@@ -6,7 +6,7 @@ const ProfileDropdown = () => {
     const navigate = useNavigate();
 
     function handSignOut(){
-        console.log("HandleSign out blah blah blah ")
+        localStorage.removeItem("userId")
 
         navigate('/')
     }

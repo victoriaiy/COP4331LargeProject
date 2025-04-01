@@ -64,7 +64,7 @@ const Header = () => {
 
                 {/* Right-side Icon */}
                 <motion.button
-                    onClick={() => console.log("Settings clicked")}
+                    onClick={() => navigate("/Setting")}
                     whileHover={{ scale: 1.1 }}
                     className="!text-white-400 text-2xl sm:text-3xl"
                 >

@@ -85,13 +85,13 @@ const ReviewComponent = () => {
   };
 
   return (
-    <div className="absolute left-0 bottom-0 w-full h-full">
+    <div className="absolute z-0 left-0 bottom-0 w-full h-full">
       {floatingReviews.map((review) => (
         <motion.div
           key={review.id}
-          className=" fixed  border-2 border-purple-400 left-0 px-4 py-2 bg-black text-white rounded-lg shadow-lg text-sm"
+          className=" fixed  border-2 border-purple-400 cdleft-0 px-4 py-2 bg-black text-white rounded-lg shadow-lg text-sm"
           initial={{ x: review.x, y: window.innerHeight, opacity: 0 }} // Starts at the bottom
-          animate={{ y: window.innerHeight * 0.45, opacity: 1 }} // Stops at 40% of screen height
+          animate={{ y: window.innerHeight * 0.65, opacity: 1 }} // Stops at 40% of screen height
           exit={{ opacity: 0 }}
           transition={{ duration: 5, ease: "easeInOut" }}
           onAnimationComplete={() => removeReview(review.id)}

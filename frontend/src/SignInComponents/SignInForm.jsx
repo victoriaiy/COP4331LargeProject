@@ -6,7 +6,7 @@ import { IoIosCreate } from "react-icons/io";
 
 
 const SignInForm = () => {
-  const [formData, setFormData] = useState({ email: "",password: ""});
+  const [formData, setFormData] = useState({ username: "",password: ""});
   const [error, setError] = useState("");
   //navigate to home if success
   const navigate = useNavigate();
@@ -20,13 +20,13 @@ const SignInForm = () => {
     setError(""); // Reset error state
 
     try {
-      const response = await axios.post("https://cop4331largeproject-1.onrender.com/auth/login", {
-        email: formData.email,
+      const response = await axios.post("https://backup-backend-j6zv.onrender.com/api/login", {
+        username: formData.username,
         password: formData.password,
       });
 
-      // Store JWT token in localStorage
-      localStorage.setItem("token", response.data.token);
+      //set the storage that 
+      localStorage.setItem("userId", JSON.stringify(response.data.id));
       // Redirect to Home after successful login
       navigate("/Home");
     } catch (err) {
@@ -53,10 +53,10 @@ const SignInForm = () => {
           {/* Email */}
           <motion.input
             whileFocus={{ scale: 1.05 }}
-            type="email"
-            name="email"
-            placeholder="Email"
-            value={formData.email}
+            type="text"
+            name="username"
+            placeholder="Username"
+            value={formData.username}
             onChange={handleChange}
             className="w-full p-3 rounded-xl  !bg-gray-800 !text-white border-none outline-none focus:ring-2 focus:ring-blue-500"
           />
@@ -71,7 +71,7 @@ const SignInForm = () => {
             onChange={handleChange}
             className="w-full p-3 rounded-xl bg-gray-800 text-white border-none outline-none focus:ring-2 focus:ring-blue-500"
           />
-
+          <a className="!underline pointer ">Forgot Password?</a>
           {/* Submit Button */}
           <motion.button
             whileHover={{ scale: 1.1 }}

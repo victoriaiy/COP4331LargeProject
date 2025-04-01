@@ -2,30 +2,37 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import axios from "axios";
+import ProfilePicture from "./ProflieComponents/ProfilePicture";
 
 const Profile = () => {
     const navigate = useNavigate()
-  const [user, setUser] = useState({
-    name: "John Doe",
-    profilePic: "none",
-    aboutMe: "This is a placeholder bio. Update it to make it yours!",
-    xp: 1200,
-    badges: ["🔥 Streak Master", "🏆 Level 10", "💡 Language Guru", "cool guy", "Getting money", "Try again", "max","max","max","max","max","max"],
+    const [user, setUser] = useState({
+    username: ".....",
+    profilePicture: "none",
+    aboutMe: "Loading...",
+    xp: ".....",
+    badges: ["Explore to earn more Badges"],
   });
 
   const [editMode, setEditMode] = useState(false);
   const [newAboutMe, setNewAboutMe] = useState(user.aboutMe);
 
-  /*
-  This is for the api that we are going to create we will always check if we are signed in first before showing the user information 
+
+
  useEffect(() => {
+    const id = JSON.parse(localStorage.getItem("userId")); //parsing the user id from local storage
+    console.log(id)
     axios
-      .get("/api/user-profile") // Replace with actual API endpoint
+      .post("https://backup-backend-j6zv.onrender.com/api/profile",{
+        userId : id
+      }) // Replace with actual API endpoint
       .then((res) => setUser(res.data))
       .catch((err) => console.error("Error fetching user data:", err));
+
+    console.log(user)
   }, []);
 
-  */
+
 
   // Handle profile update
   const handleSave = () => {
@@ -35,21 +42,18 @@ const Profile = () => {
 
   return (
     <motion.div
-      className="max-w-3xl mx-auto mt-10 bg-white shadow-lg rounded-lg p-6"
+      className="max-w-3xl mx-auto mt-10 min-w-150 bg-white shadow-lg rounded-lg p-6"
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
       {/* Profile Header */}
       <div className="flex flex-col items-center">
-        <motion.img
-          src={user.profilePic}
-          alt="Profile"
-          className="w-24 h-24 rounded-full border-4 border-blue-500 shadow-md cursor-pointer"
-          whileHover={{ scale: 1.1 }}
-        />
-        <h2 className="mt-4 text-xl font-bold text-gray-800">{user.name}</h2>
-        <p className="text-gray-500 text-sm">XP: {user.xp}</p>
+       <ProfilePicture src={user.profilePicture} username={user.username} size={64}></ProfilePicture>
+        <h2 className="mt-4 text-xl font-bold text-gray-800">{user.username}</h2>
+        <p className="text-gray-500 text-sm">Level: {user.level}</p>
+        <p className="text-gray-500 text-sm">Login Steak: {user.loginStreak}</p>
+
       </div>
 
       {/* About Me Section */}
@@ -93,15 +97,24 @@ const Profile = () => {
       <div className="mt-6">
         <h3 className="text-lg font-semibold text-gray-700">Badges</h3>
         <div className="flex gap-3 mt-2 flex-wrap ">
-          {user.badges.map((badge, index) => (
+        {user.badges && user.badges.length > 0 ? (
+            user.badges.map((badge, index) => (
+              <motion.span
+                key={index}
+                className="px-3 py-1 bg-blue-100 text-blue-600 rounded-lg text-sm shadow-md"
+                whileHover={{ scale: 1.1 }}
+              >
+                {badge}
+              </motion.span>
+            ))
+          ) : (
             <motion.span
-              key={index}
               className="px-3 py-1 bg-blue-100 text-blue-600 rounded-lg text-sm shadow-md"
               whileHover={{ scale: 1.1 }}
             >
-              {badge}
+              Explore to earn more badges
             </motion.span>
-          ))}
+          )}
         </div>
       </div>
 
@@ -118,3 +131,6 @@ const Profile = () => {
 };
 
 export default Profile;
+
+
+

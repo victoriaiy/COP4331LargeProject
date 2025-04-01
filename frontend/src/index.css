@@ -36,8 +36,8 @@ body {
   min-width: 320px;
   min-height: 100vh;
   background-image: 
-    linear-gradient(to bottom,  rgb(255, 255, 255,0.5), rgba(33, 29, 29, 0.7) ),
-    url(assets/digital-art-with-city-landscape-architecture.jpg);
+    linear-gradient(to bottom,  rgb(255, 255, 255,0.1), rgba(33, 29, 29, 0.7) ),
+    url(assets/purple-background.avif);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

@@ -33,16 +33,17 @@ const CreateAccount = () => {
     }
 
     try {
-      const response = await axios.post("https://cop4331largeproject-1.onrender.com/auth/register", // Your backend route
+      const response = await axios.post("https://backup-backend-j6zv.onrender.com/api/signup", // Your backend route
         {
-          name: formData.username,
+          username: formData.username,
           email: formData.email,
           password: formData.password,
         }
       );
 
       setSuccessMessage("✅ Account created successfully! Check your email for verification.");
-      console.log(response)
+      localStorage.setItem("id", response.id);
+
       setTimeout(() => navigate("/signin"), 1000); // Redirect after 3 sec
     } catch (err) {
       setError(err.response?.data?.message || "❌ Registration failed. Try again.");
