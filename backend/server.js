@@ -128,7 +128,7 @@ async function sendVerificationEmail(email, username, verificationToken) {
   
   try {
     await resend.emails.send({
-      from: 'Habla+ <onboarding@resend.dev>',  // You can change after domain verify
+      from: 'Habla+ <verify@habla-plus.xyz>',  // You can change after domain verify
       to: email,
       subject: 'Email Verification',
       text: `Hello ${username}, click here to verify: ${verificationLink}`,
@@ -186,7 +186,7 @@ app.post('/api/resetpasswordemail', async (req, res) => {
       }
     );
 
-    await sendPasswordResetEmail(email, user.Username, passwordResetToken);
+    await sendPasswordResetEmail(email, user.UserName, passwordResetToken);
 
     res.status(200).json({ message: "Password reset email sent" });
   } catch (e) {
@@ -199,7 +199,7 @@ async function sendPasswordResetEmail(email, username, passwordResetToken) {
   const resetLink = `http://habla-plus.xyz:5001/resetpassword?token=${passwordResetToken}`;
   try {
     await resend.emails.send({
-      from: 'Habla+ <onboarding@resend.dev>',
+      from: 'Habla+ <resetpassword@habla-plus.xyz>',
       to: email,
       subject: 'Reset Password',
       text: `Hello ${username}, click here to reset your password: ${resetLink}`
@@ -320,7 +320,7 @@ const fs = require('fs');
 // Multer storage config for profile_pictures
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'profile_pictures/');
+   cb(null, 'profile_pictures/');
   },
   filename: function (req, file, cb) {
     const ext = path.extname(file.originalname);
@@ -339,7 +339,7 @@ app.post('/api/profilepicture', upload.single('profilePicture'), async (req, res
   const { userId } = req.body;
 
   if (!userId || !req.file) {
-    return res.status(400).json({ error: "No id or file" });
+   return res.status(400).json({ error: "No id or file" });
   }
 
   try {
@@ -364,6 +364,9 @@ app.post('/api/profilepicture', upload.single('profilePicture'), async (req, res
 });
 
 
+app.get('/', (req, res) => {
+  res.send('✅ Server is up and running!');
+});
 
 app.listen(5001, () => {
   console.log("Server started on port 5001");
