@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 
 
-const ProfilePicture = ({ src, username, size = 64 }) => {
+const ProfilePicture = ({ src, username, size = 64, onUploadSuccess }) => {
   const navigate = useNavigate();
 
   const fileInputRef = useRef();
@@ -33,7 +33,7 @@ const ProfilePicture = ({ src, username, size = 64 }) => {
       if (res.ok) {
         alert("Profile picture updated!");
         // Optionally reload the page or update state
-        navigate(0)
+        if(onUploadSuccess) onUploadSuccess();
       } else {
         console.error("Upload failed:", data.error);
         alert("Upload failed: " + data.error);

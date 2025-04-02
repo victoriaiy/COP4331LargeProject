@@ -49,7 +49,22 @@ const Profile = () => {
     >
       {/* Profile Header */}
       <div className="flex flex-col items-center">
-       <ProfilePicture src={user.profilePicture} username={user.username} size={64}></ProfilePicture>
+       <ProfilePicture 
+       
+        src={user.profilePicture} username={user.username} size={64}
+        
+        //adding a function the recalls the api when the upload is successful
+
+        onUploadSuccess = {()=>{
+          const id = JSON.parse(localStorage.getItem("userId"));
+
+          axios.post("https://backup-backend-j6zv.onrender.com/api/profile", { userId: id })
+          .then((res)=> setUser(res.data))
+          .catch((err) => console.error("error refresshing the user image", err));
+        }}
+        
+        
+        ></ProfilePicture>
         <h2 className="mt-4 text-xl font-bold text-gray-800">{user.username}</h2>
         <p className="text-gray-500 text-sm">Level: {user.level}</p>
         <p className="text-gray-500 text-sm">Login Steak: {user.loginStreak}</p>
