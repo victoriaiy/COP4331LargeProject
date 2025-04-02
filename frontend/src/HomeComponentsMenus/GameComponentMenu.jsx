@@ -5,12 +5,19 @@ import { useNavigate } from "react-router-dom";
 import logo from "../assets/theGamewController.png"
 
 const GameComponentMenu = () => {
-  const navigate = useNavigate()
+
+  const [userId, setUserId] = useState("")
+  useEffect(()=>{
+
+     setUserId(JSON.parse(localStorage.getItem("userId")));
+
+  },[])
+
+
 
   function navigateToGame(){
-    window.location.href = "https://infinite-runner-seven.vercel.app/"
+    window.location.href = `https://infinite-runner-seven.vercel.app/?userId=${encodeURIComponent(userId)}`;
   }
- 
 
   return (
     <div 
@@ -59,4 +66,4 @@ const GameComponentMenu = () => {
   );
 };
 
-export default GameComponentMenu;
+export default GameComponentMenu
