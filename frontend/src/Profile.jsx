@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import axios from "axios";
 import ProfilePicture from "./ProflieComponents/ProfilePicture";
+import { useBadge } from "./BadgesMetaData/BadgeContent";
 
 const Profile = () => {
     const navigate = useNavigate()
@@ -13,7 +14,7 @@ const Profile = () => {
     xp: ".....",
     badges: ["Explore to earn more Badges"],
   });
-
+  const {unlockBadge} = useBadge()
   const [editMode, setEditMode] = useState(false);
   const [newAboutMe, setNewAboutMe] = useState(user.aboutMe);
 
@@ -61,6 +62,9 @@ const Profile = () => {
           axios.post("https://backup-backend-j6zv.onrender.com/api/profile", { userId: id })
           .then((res)=> setUser(res.data))
           .catch((err) => console.error("error refresshing the user image", err));
+          
+          unlockBadge("changedAvatar")
+
         }}
         
         

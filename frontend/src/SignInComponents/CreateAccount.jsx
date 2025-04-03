@@ -6,6 +6,7 @@ import { FaSignInAlt } from "react-icons/fa";
 
 
 const CreateAccount = () => {
+
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -15,22 +16,37 @@ const CreateAccount = () => {
 
   const [error, setError] = useState(""); // For handling errors
   const [successMessage, setSuccessMessage] = useState(""); // For showing success
+  const [loading, setIsLoading] = useState(false);//setting the submit button gray if loading
   const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-   const  handleSubmit =  async (e) => {
+  const  handleSubmit =  async (e) => {
     e.preventDefault();
     setError(""); // Clear errors
     setSuccessMessage("");
+    if (loading) return;
+
+    if (!formData.email.includes("@")){
+      setError("Please Enter A Valid Email Address.")
+
+      return;
+    }
+    if(formData.password.length < 6){
+      setError("Password must be at least 6 characters long");
+
+      return;
+    }
 
     // Password validation
     if (formData.password !== formData.confirmPassword) {
       setError("❌ Passwords do not match.");
+
       return;
     }
+    setIsLoading(true)
 
     try {
       const response = await axios.post("https://backup-backend-j6zv.onrender.com/api/signup", // Your backend route
@@ -47,6 +63,8 @@ const CreateAccount = () => {
       setTimeout(() => navigate("/signin"), 1000); // Redirect after 3 sec
     } catch (err) {
       setError(err.response?.data?.message || "❌ Registration failed. Try again.");
+    }finally{
+      setIsLoading(false)
     }
   };
 
@@ -113,12 +131,13 @@ const CreateAccount = () => {
 
           {/* Submit Button */}
           <motion.button
+            disabled= {loading}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
             type="submit"
-            className="w-full p-3 mt-4 !bg-purple-500 rounded-xl font-bold text-white shadow-md hover:bg-blue-700 transition"
+            className={`w-full p-3 mt-4 rounded-xl font-bold text-white shadow-md hover:bg-blue-700 transition ${loading ? "!bg-gray-500" : "!bg-purple-500" }`}
           >
-            Create Account
+            {loading?"Creating Account...":"Create Account"}
           </motion.button>
         </form>
       </motion.div>

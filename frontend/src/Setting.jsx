@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { motion } from "framer-motion";
+import { useBadge } from "./BadgesMetaData/BadgeContent";
 
 export default function SettingsPage() {
   const [userId, setUserId] = useState("");
   const [vocabLists, setVocabLists] = useState([]);
   const [learnedWords, setLearnedWords] = useState([]);
-
+  const {unlockBadge} = useBadge()
   useEffect(() => {
+    unlockBadge("openedSettings")
     const id = JSON.parse(localStorage.getItem("userId"));
     setUserId(id);
 
@@ -24,6 +26,7 @@ export default function SettingsPage() {
         .then((res) => res.json())
         .then((data) => setLearnedWords(data.learnedWords || []));
     }
+   
   }, []);
 
   const handleDeleteAccount = async () => {

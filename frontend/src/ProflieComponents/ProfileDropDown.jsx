@@ -2,12 +2,13 @@ import React from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 
+
 const ProfileDropdown = () => {
-    const navigate = useNavigate();
+
+    const navigate = useNavigate()
 
     function handSignOut(){
         localStorage.removeItem("userId")
-
         navigate('/')
     }
 
@@ -21,7 +22,8 @@ const ProfileDropdown = () => {
             <div className="bg-white absolute top-0 right-3 w-4 h-4 -translate-y-2 - rotate-45"></div>
             <button
                 className="block w-30 mt-3 py-2  text-mid"
-                onClick={() => navigate("/Profile")}
+                onClick={() => {navigate("/Profile")
+                }}
             >
                 Edit Profile
             </button>
