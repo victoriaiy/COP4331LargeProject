@@ -2,11 +2,14 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { motion } from "framer-motion";
 import { useBadge } from "./BadgesMetaData/BadgeContent";
+import { useNavigate } from "react-router-dom";
+import { FaHome } from "react-icons/fa";
 
 export default function SettingsPage() {
   const [userId, setUserId] = useState("");
   const [vocabLists, setVocabLists] = useState([]);
   const [learnedWords, setLearnedWords] = useState([]);
+  const navigate = useNavigate()
   const {unlockBadge} = useBadge()
   useEffect(() => {
     unlockBadge("openedSettings")
@@ -54,8 +57,13 @@ export default function SettingsPage() {
   };
 
   return (
-    <div className="max-w-xl min-w-2xl bg-gray-300 rounded-2xl mx-auto p-6 space-y-6">
+    <div className="max-w-xl min-w-2xl bg-gray-300 rounded-2xl mx-auto p-6  relative space-y-6">
       <h1 className="text-3xl text-purple-400 font-bold text-center">Settings</h1>
+      <button
+        className="w-10 h-10 absolute !p-3 left-2 top-2"
+        onClick={()=>navigate("/Home")}
+      ><FaHome />
+      </button>
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}

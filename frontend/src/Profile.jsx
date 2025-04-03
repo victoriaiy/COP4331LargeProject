@@ -17,8 +17,8 @@ const Profile = () => {
   const {unlockBadge} = useBadge()
   const [editMode, setEditMode] = useState(false);
   const [newAboutMe, setNewAboutMe] = useState(user.aboutMe);
-
-
+  const [badges, setBadges] = useState([]);
+  
 
  useEffect(() => {
     const id = JSON.parse(localStorage.getItem("userId")); //parsing the user id from local storage
@@ -31,6 +31,8 @@ const Profile = () => {
       .catch((err) => console.error("Error fetching user data:", err));
 
     console.log(user)
+    setBadges(JSON.parse(localStorage.getItem("badges")))
+    console.log(badges)
   }, []);
 
 
@@ -116,8 +118,8 @@ const Profile = () => {
       <div className="mt-6">
         <h3 className="text-lg font-semibold text-gray-700">Badges</h3>
         <div className="flex gap-3 mt-2 flex-wrap ">
-        {user.badges && user.badges.length > 0 ? (
-            user.badges.map((badge, index) => (
+        {badges && badges.length > 0 ? (
+            badges.map((badge, index) => (
               <motion.span
                 key={index}
                 className="px-3 py-1 bg-blue-100 text-blue-600 rounded-lg text-sm shadow-md"
