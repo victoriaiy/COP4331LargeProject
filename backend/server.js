@@ -435,6 +435,25 @@ app.post('/api/addfriend', async (req, res) => {
   }
 });
 
+app.post('/api/addlearnedword', async (req, res) => {
+  const { userId, learnedWord } = req.body;
+  
+  if (!userId || !learnedWord) {
+    return res.status(400).json({ error: "Need userId and learnedWord" });
+  }
+
+  try {
+    const db = client.db("POOSD");
+    await db.collection("Users").updateOne(
+      { UserId: userId },
+      { $push: { LearnedWords: learnedWord } }
+    );
+    res.status(200).json({ message: "Learned word added" });
+  } catch (e) {
+    res.status(500).json({ error: e.toString() });
+  }
+});
+
 
 
 app.get('/', (req, res) => {
