@@ -5,12 +5,15 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const { MongoClient } = require('mongodb');
+const path = require('path');
 
 const app = express();
 
 app.use(cors());
 
 app.use(bodyParser.json());
+
+app.use(express.static(path.join(__dirname, 'frontend/dist')));
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -48,7 +51,7 @@ app.post('/api/signup', async (req, res) => {
     Password: md5(password),
     Email: email,
 
-    Verified: false,   
+    Verified: false,
     VerificationToken: verificationToken,
     VocabLists: [],
     ProgressLevel: 1,
@@ -125,7 +128,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 // Function to send the verification email
 async function sendVerificationEmail(email, username, verificationToken) {
   const verificationLink = `http://habla-plus.xyz:5001/verify?token=${verificationToken}`;
-  
+
   try {
     await resend.emails.send({
       from: 'Habla+ <verify@habla-plus.xyz>',  // You can change after domain verify
@@ -314,13 +317,12 @@ app.post('/api/addlevel', async (req, res) => {
 
 //profile picture
 const multer = require('multer');
-const path = require('path');
 const fs = require('fs');
 
 // Multer storage config for profile_pictures
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-   cb(null, 'profile_pictures/');
+    cb(null, 'profile_pictures/');
   },
   filename: function (req, file, cb) {
     const ext = path.extname(file.originalname);
@@ -339,7 +341,7 @@ app.post('/api/profilepicture', upload.single('profilePicture'), async (req, res
   const { userId } = req.body;
 
   if (!userId || !req.file) {
-   return res.status(400).json({ error: "No id or file" });
+    return res.status(400).json({ error: "No id or file" });
   }
 
   try {
@@ -364,9 +366,81 @@ app.post('/api/profilepicture', upload.single('profilePicture'), async (req, res
 });
 
 
+// gets friends, badges, and learnedwords
+app.post('/api/getuserinfo', async (req, res) => {
+  const { userId } = req.body;
+
+  if (!userId) {
+    return res.status(400).json({ error: "Need userId" });
+  }
+
+  try {
+    const db = client.db("POOSD");
+    const user = await db.collection("Users").findOne(
+      { UserId: userId },
+    );
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    res.status(200).json({
+      friends: user.Friends || [],
+      badges: user.Badges || [],
+      learnedWords: user.LearnedWords || []
+    });
+  } catch (e) {
+    res.status(500).json({ error: e.toString() });
+  }
+});
+
+
+// add endpoints use $push to add to the end of array so it doesnt overwrite
+app.post('/api/addbadge', async (req, res) => {
+  const { userId, badge } = req.body;
+
+  if (!userId || !badge) {
+    return res.status(400).json({ error: "Need userId and badge" });
+  }
+
+  try {
+    const db = client.db("POOSD");
+    await db.collection("Users").updateOne(
+      { UserId: userId },
+      { $push: { Badges: badge } }
+    );
+    res.status(200).json({ message: "Badge added" });
+  } catch (e) {
+    res.status(500).json({ error: e.toString() });
+  }
+});
+
+
+app.post('/api/addfriend', async (req, res) => {
+  const { userId, friend } = req.body;
+
+  if (!userId || !friend) {
+    return res.status(400).json({ error: "Need userId and friend" });
+  }
+
+  try {
+    const db = client.db("POOSD");
+    await db.collection("Users").updateOne(
+      { UserId: userId },
+      { $push: { Friends: friend } }
+    );
+    res.status(200).json({ message: "Friend added" });
+  } catch (e) {
+    res.status(500).json({ error: e.toString() });
+  }
+});
+
+
+
 app.get('/', (req, res) => {
   res.send('✅ Server is up and running!');
 });
+
 
 app.listen(5001, () => {
   console.log("Server started on port 5001");
