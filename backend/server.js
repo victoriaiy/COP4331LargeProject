@@ -318,6 +318,7 @@ app.post('/api/addlevel', async (req, res) => {
 //profile picture
 const multer = require('multer');
 const fs = require('fs');
+const { get } = require('http');
 
 // Multer storage config for profile_pictures
 const storage = multer.diskStorage({
@@ -437,7 +438,7 @@ app.post('/api/addfriend', async (req, res) => {
 
 app.post('/api/addlearnedword', async (req, res) => {
   const { userId, learnedWord } = req.body;
-  
+
   if (!userId || !learnedWord) {
     return res.status(400).json({ error: "Need userId and learnedWord" });
   }
@@ -453,6 +454,218 @@ app.post('/api/addlearnedword', async (req, res) => {
     res.status(500).json({ error: e.toString() });
   }
 });
+
+
+
+app.post('/api/addvocablist', async (req, res) => {
+  const { userId, vocabListId, category } = req.body;
+  if (!userId || !vocabListId || !category) {
+    return res.status(400).json({ error: "userId, vocabListId and category are required" });
+  }
+
+  try {
+    const db = client.db("POOSD");
+
+    const user = await db.collection("Users").findOne({ UserId: userId });
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const newVocabList = {
+      VocabListId: vocabListId,
+      Category: category,
+      Words: []
+    };
+
+    await db.collection("Users").updateOne(
+      { UserId: userId },
+      { $push: { VocabLists: newVocabList } }
+    );
+
+    res.status(201).json({
+      message: "Vocab list created."
+    });
+  } catch (e) {
+    res.status(500).json({ error: e.toString() });
+  }
+});
+
+app.post('/api/addword', async (req, res) => {
+  const { userId, vocabListId, word } = req.body;
+  if (!userId || !vocabListId || !word) {
+    return res.status(400).json({ error: "userId, vocabListId and word are required" });
+  }
+
+  try {
+    const db = client.db("POOSD");
+
+    const result = await db.collection("Users").updateOne(
+      { UserId: userId, "VocabLists.VocabListId": vocabListId },
+      { $push: { "VocabLists.$.Words": word } }
+    );
+
+
+    res.status(200).json({
+      message: "Word added."
+    });
+  } catch (e) {
+    res.status(500).json({ error: e.toString() });
+  }
+});
+
+app.post('/api/getvocablists', async (req, res) => {
+  const { userId } = req.body;
+  if (!userId) {
+    return res.status(400).json({ error: "userId parameter is required" });
+  }
+  try {
+    const db = client.db("POOSD");
+    const user = await db.collection("Users").findOne(
+      { UserId: userId },
+      { projection: { _id: 0, VocabLists: 1 } }
+    );
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    res.status(200).json({
+      data: user.VocabLists
+    });
+  } catch (e) {
+    res.status(500).json({ error: e.toString() });
+  }
+});
+
+app.post('/api/getwords', async (req, res) => {
+  const { userId, vocabListId } = req.body;
+  if (!userId || !vocabListId) {
+    return res.status(400).json({ error: "userId and vocabListId parameters are required" });
+  }
+
+  try {
+    const db = client.db("POOSD");
+    const user = await db.collection("Users").findOne(
+      { UserId: userId },
+      { projection: { _id: 0, VocabLists: 1 } }
+    );
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const vocabList = (user.VocabLists || []).find(v => v.VocabListId === vocabListId);
+    if (!vocabList) {
+      return res.status(404).json({ error: "Vocab list not found for this user" });
+    }
+    res.status(200).json({
+      data: vocabList.Words
+    });
+  } catch (e) {
+    res.status(500).json({ error: e.toString() });
+  }
+});
+
+app.post('/api/updatelastlogindate', async (req, res) => {
+  const { userId } = req.body;
+  if (!userId) {
+    return res.status(400).json({ error: "userId parameter is required" });
+  }
+  try {
+    const newDate = new Date();
+    const db = client.db("POOSD");
+    const result = await db.collection("Users").updateOne(
+      { UserId: userId },
+      { $set: { LastLoginDate: newDate } }
+    );
+    if (result.modifiedCount === 0) {
+      return res.status(404).json({ error: "User not found or login date not updated" });
+    }
+    res.status(200).json({
+      message: "Last login date updated.",
+      lastLoginDate: newDate
+    });
+  } catch (e) {
+    res.status(500).json({ error: e.toString() });
+  }
+});
+
+app.post('/api/getlastlogindate', async (req, res) => {
+  const { userId } = req.body;
+  if (!userId) {
+    return res.status(400).json({ error: "userId parameter is required" });
+  }
+  try {
+    const db = client.db("POOSD");
+    const user = await db.collection("Users").findOne(
+      { UserId: userId },
+      { projection: { _id: 0, LastLoginDate: 1 } }
+    );
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    res.status(200).json({ lastLoginDate: user.LastLoginDate });
+  } catch (e) {
+    res.status(500).json({ error: e.toString() });
+  }
+});
+
+
+app.post('/api/resetloginstreak', async (req, res) => {
+  const { userId } = req.body;
+  if (!userId) {
+    return res.status(400).json({ error: "userId parameter is required" });
+  }
+  try {
+    const db = client.db("POOSD");
+    const result = await db.collection("Users").updateOne(
+      { UserId: userId },
+      { $set: { LoginStreak: 1 } }
+    );
+    if (result.modifiedCount === 0) {
+      return res.status(404).json({ error: "User not found or login streak not reset" });
+    }
+    res.status(200).json({
+      message: "Login streak reset.",
+      loginStreak: 1
+    });
+  } catch (e) {
+    res.status(500).json({ error: e.toString() });
+  }
+});
+
+app.post('/api/incrementloginstreak', async (req, res) => {
+  const { userId } = req.body;
+  if (!userId) {
+    return res.status(400).json({ error: "userId parameter is required" });
+  }
+  try {
+    const db = client.db("POOSD");
+    const result = await db.collection("Users").updateOne(
+      { UserId: userId },
+      { $inc: { LoginStreak: 1 } }
+    );
+    if (result.modifiedCount === 0) {
+      return res.status(404).json({ error: "User not found or login streak not incremented" });
+    }
+
+    const user = await db.collection("Users").findOne(
+      { UserId: userId },
+      { projection: { _id: 0, LoginStreak: 1 } }
+    );
+    res.status(200).json({
+      message: "Login streak incremented.",
+      loginStreak: user.LoginStreak
+    });
+  } catch (e) {
+    res.status(500).json({ error: e.toString() });
+  }
+});
+
+
+
+
+
+
+
 
 
 
