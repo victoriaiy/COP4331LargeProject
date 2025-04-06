@@ -4,11 +4,17 @@ import LearnComponentMenu from "./HomeComponentsMenus/LearnComponentMenu";
 import GameComponentMenu from "./HomeComponentsMenus/GameComponentMenu";
 import ToggleButton from "./HomeComponentsMenus/ToggleButton";
 import { motion, AnimatePresence } from "framer-motion";
-
+import { useBadge } from "./BadgesMetaData/BadgeContent";
 
 const Home = () => {
   const [isOn, setIsOn] = useState(false);
+  const { unlockBadge } = useBadge();
 
+
+  useEffect(()=>{
+
+    unlockBadge("firstLogin")
+  },[])
 
   return (
     <div className="relative min-w-screen min-h-screen bg-gradient-to-b from-purple-700 via-gray-800 to-black flex flex-col items-center pt-20">

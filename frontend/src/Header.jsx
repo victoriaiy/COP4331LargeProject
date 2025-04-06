@@ -56,7 +56,8 @@ const Header = () => {
                 <motion.img
                     src={logo}
                     alt="HABLA+ Logo"
-                    className="h-10 sm:h-20 object-contain"
+                    onClick={()=>navigate("/Home")}
+                    className="h-10 sm:h-20 object-contain cursor-pointer"
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 1, ease: "easeOut" }}

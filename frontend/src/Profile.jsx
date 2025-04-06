@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import axios from "axios";
 import ProfilePicture from "./ProflieComponents/ProfilePicture";
+import { useBadge } from "./BadgesMetaData/BadgeContent";
 
 const Profile = () => {
     const navigate = useNavigate()
@@ -13,11 +14,11 @@ const Profile = () => {
     xp: ".....",
     badges: ["Explore to earn more Badges"],
   });
-
+  const {unlockBadge} = useBadge()
   const [editMode, setEditMode] = useState(false);
   const [newAboutMe, setNewAboutMe] = useState(user.aboutMe);
-
-
+  const [badges, setBadges] = useState([]);
+  
 
  useEffect(() => {
     const id = JSON.parse(localStorage.getItem("userId")); //parsing the user id from local storage
@@ -30,6 +31,8 @@ const Profile = () => {
       .catch((err) => console.error("Error fetching user data:", err));
 
     console.log(user)
+    setBadges(JSON.parse(localStorage.getItem("badges")))
+    console.log(badges)
   }, []);
 
 
@@ -61,6 +64,9 @@ const Profile = () => {
           axios.post("https://backup-backend-j6zv.onrender.com/api/profile", { userId: id })
           .then((res)=> setUser(res.data))
           .catch((err) => console.error("error refresshing the user image", err));
+          
+          unlockBadge("changedAvatar")
+
         }}
         
         
@@ -112,8 +118,8 @@ const Profile = () => {
       <div className="mt-6">
         <h3 className="text-lg font-semibold text-gray-700">Badges</h3>
         <div className="flex gap-3 mt-2 flex-wrap ">
-        {user.badges && user.badges.length > 0 ? (
-            user.badges.map((badge, index) => (
+        {badges && badges.length > 0 ? (
+            badges.map((badge, index) => (
               <motion.span
                 key={index}
                 className="px-3 py-1 bg-blue-100 text-blue-600 rounded-lg text-sm shadow-md"
