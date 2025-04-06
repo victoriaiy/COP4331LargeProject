@@ -115,7 +115,7 @@ const CreateAccount = () => {
 
     try {
       const response = await axios.post(
-        "https://habla-plus.xyz/api/signup",
+        "https://backup-backend-j6zv.onrender.com/api/signup",
         {
           username: formData.username,
           email: formData.email,
