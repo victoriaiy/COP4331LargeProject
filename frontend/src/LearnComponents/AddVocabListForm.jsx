@@ -1,10 +1,12 @@
 import { useState } from "react";
 import axios from "axios";
+import { useBadge } from "../BadgesMetaData/BadgeContent";
 
 const AddVocabListForm = ({ userId }) => {
   const [category, setCategory] = useState("");
   const [words, setWords] = useState([{ English: "", Spanish: "" }]);
   const [message, setMessage] = useState("");
+  const {unlockBadge} = useBadge()
 
   const handleChange = (index, field, value) => {
     const updated = [...words];
@@ -65,7 +67,7 @@ const AddVocabListForm = ({ userId }) => {
         category,
         words: formattedWords,
       });
-
+      unlockBadge("addedVocab");
       setMessage("✅ Vocab list created!");
       setCategory("");
       setWords([{ English: "", Spanish: "" }]);

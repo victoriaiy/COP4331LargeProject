@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { motion, AnimatePresence } from "framer-motion";
+import { useBadge } from "../BadgesMetaData/BadgeContent";
+
 
 const QuizComponent = ({ userId, category }) => {
   const [questions, setQuestions] = useState([]);
@@ -10,6 +12,8 @@ const QuizComponent = ({ userId, category }) => {
   const [stats, setStats] = useState({});
   const [showLearnedPopup, setShowLearnedPopup] = useState(false);
   const [learnedWordName, setLearnedWordName] = useState("");
+  const {unlockBadge} = useBadge()
+
     console.log(category)
   useEffect(() => {
     axios.post("https://backup-backend-j6zv.onrender.com/api/userwords", { userId }).then((res) => {
@@ -70,7 +74,7 @@ const QuizComponent = ({ userId, category }) => {
           userId,
           word: currentWord,
         });
-
+        unlockBadge("learnWord");
         axios.post("https://backup-backend-j6zv.onrender.com/api/trackwordstats", {
           userId,
           wordId,

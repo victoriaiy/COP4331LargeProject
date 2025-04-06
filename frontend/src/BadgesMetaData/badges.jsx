@@ -23,6 +23,11 @@ export const badgeList = {
       id: "playedGame",
       name: "Adventurer",
       description: "You played the game for the first time.",
+    },
+    learnedWord:{
+      id : "learnedWord",
+      name: "BookWorm",
+      description: "Learned Your First Word"
     }
   };
   
