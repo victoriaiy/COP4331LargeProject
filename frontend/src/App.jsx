@@ -9,7 +9,7 @@ import VocabChallengeComponent from './Challenges/VocabChallengeComponent';
 import SettingsPage from './Setting';
 import LearnWordPage from "./LearnWordPage";
 import AddVocabListPage from "./LearnComponents/AddVocabListPage";
-
+import ForgotPasswordForm from "./SignInComponents/ForgotPassword";
 
 
 
@@ -28,6 +28,7 @@ const App = () =>{
         <Route path="Setting" element={<SettingsPage/>}/>
         <Route path="/learn/:category" element={<LearnWordPage/>}></Route>
         <Route path="add-vocab" element={<AddVocabListPage/>}/>
+        <Route path="/forgot-password" element={<ForgotPasswordForm />} />
 
 
         {/*Routes for challenges*/}

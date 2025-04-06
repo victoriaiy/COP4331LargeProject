@@ -198,7 +198,9 @@ const SignInForm = () => {
             </p>
           </div>
 
-          <a className="underline cursor-pointer text-sm">Forgot Password?</a>
+          <a 
+          onClick={()=>navigate("/forgot-password")}
+          className="underline cursor-pointer text-sm">Forgot Password?</a>
 
           {/* Submit Button - Purple */}
           <motion.button
