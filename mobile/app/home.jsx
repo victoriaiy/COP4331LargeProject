@@ -26,7 +26,7 @@ import {
     {
       title: "Game Mode",
       description: "Jump into fun learning games!",
-      onPress: () => Linking.openURL("https://infinite-runner-seven.vercel.app"),
+      onPress: () => Linking.openURL("https://www.hablaplusgame.com/"),
       color: ["#1f1c2c", "#928dab"],
       image: require("../assets/images/theGamewController.png"),
     },

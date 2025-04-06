@@ -16,7 +16,7 @@ const GameComponentMenu = () => {
 
 
   function navigateToGame(){
-    window.location.href = `https://infinite-runner-seven.vercel.app/?userId=${encodeURIComponent(userId)}`;
+    window.location.href = `https://www.hablaplusgame.com/?userId=${encodeURIComponent(userId)}`;
   }
 
   return (
