@@ -19,7 +19,7 @@ import {
     {
       title: "Learn Mode",
       description: "Study and practice vocabulary",
-      onPress: (router) => router.push("/learn"),
+      onPress: (router) => router.push("/learn/learnMenu"),
       color: ["#6a0dad", "#4b0082"],
       image: require("../assets/images/hablaLearnMode.png"),
     },

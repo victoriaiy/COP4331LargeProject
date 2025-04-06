@@ -1,17 +1,30 @@
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from "react-native";
 import { useState } from "react";
 import { router } from "expo-router";
 import { Ionicons } from '@expo/vector-icons';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function SignInScreen() {
-  const [email, setEmail] = useState('');
+  const [username, setusername] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSignIn = () => {
-    // Handle sign-in logic here
-    console.log("Email:", email);
-    console.log("Password:", password);
-    router.push('/home'); // just route to home for now
+  const handleSignIn = async () => {
+    try {
+      const response = await axios.post("https://backup-backend-j6zv.onrender.com/api/login", {
+        username: username,
+        password: password,
+      });
+
+      // Save user ID to AsyncStorage
+      await AsyncStorage.setItem('userId', JSON.stringify(response.data.id));
+
+      // Navigate to home
+      router.push('/home');
+    } catch (err) {
+      const errorMsg = err.response?.data?.message || "Login failed. Please try again.";
+      Alert.alert("Login Error", errorMsg);
+    }
   };
 
   return (
@@ -26,11 +39,10 @@ export default function SignInScreen() {
 
         <TextInput
           style={styles.input}
-          placeholder="Email"
+          placeholder="username"
           placeholderTextColor="#aaa"
-          value={email}
-          onChangeText={setEmail}
-          keyboardType="email-address"
+          value={username}
+          onChangeText={setusername}
         />
 
         <TextInput
