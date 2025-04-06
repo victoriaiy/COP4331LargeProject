@@ -32,8 +32,7 @@ export default function ProfileScreen() {
 
         setUser(response.data);
         setBio(response.data.aboutMe);
-        const storedBadges = await AsyncStorage.getItem("badges");
-        setBadges(storedBadges ? JSON.parse(storedBadges) : []);
+        setBadges(response.data.badges || []);
       } catch (err) {
         console.error("Error fetching profile:", err);
         Alert.alert("Error", "Unable to load profile.");
@@ -150,14 +149,16 @@ const styles = StyleSheet.create({
     textAlignVertical: 'top',
   },
   badgeContainer: {
-    flexDirection: 'row',
+    flexDirection: 'collumn',
     justifyContent: 'space-around',
-    width: '100%',
+    width: '80%',
     marginTop: 12,
-    marginBottom: 40,
+    marginBottom: 30,
   },
   badge: {
-    backgroundColor: '#444',
+    justifyContent: "center",
+    textAlign: "center",
+    backgroundColor: '#245',
     padding: 16,
     borderRadius: 12,
   },
