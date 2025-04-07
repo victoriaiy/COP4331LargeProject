@@ -53,6 +53,9 @@ export default function SignInScreen() {
           onChangeText={setPassword}
           secureTextEntry
         />
+          <TouchableOpacity onPress={() => router.push("/forgotpass")}>
+            <Text style={{ color: "#6a0dad", marginBottom: 16, marginTop: -8 }}>Forgot Password?</Text>
+          </TouchableOpacity>
 
         <TouchableOpacity style={styles.signInBtn} onPress={handleSignIn}>
           <Text style={styles.signInText}>Sign In</Text>

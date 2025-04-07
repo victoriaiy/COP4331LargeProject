@@ -29,7 +29,7 @@ export default function RegisterScreen() {
 
     setLoading(true);
     try {
-      const response = await axios.post("https://backup-backend-j6zv.onrender.com/api/signup", {
+      const response = await axios.post("https://habla-plus.xyz/api/signup", {
         username,
         email,
         password,
