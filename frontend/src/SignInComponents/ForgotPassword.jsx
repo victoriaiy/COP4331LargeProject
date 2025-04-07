@@ -66,7 +66,7 @@ const ForgotPasswordForm = () => {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
             type="submit"
-            className="w-full p-3 mt-4 rounded-xl font-bold text-white shadow-md  transition"
+            className="w-full p-3 mt-4 !bg-black rounded-xl font-bold text-white shadow-md  transition"
           >
             Send Reset Email
           </motion.button>

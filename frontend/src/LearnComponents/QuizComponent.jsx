@@ -113,7 +113,7 @@ const QuizComponent = ({ userId, category }) => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => handleAnswer(opt.English)}
-                  className="bg-purple-600 hover:bg-green-500 text-white font-semibold py-3 rounded-xl shadow-md"
+                  className="!bg-purple-600 !hover:bg-green-500 text-white font-semibold py-3 rounded-xl shadow-md"
                 >
                   {opt.English}
                 </motion.button>
