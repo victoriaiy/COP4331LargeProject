@@ -19,7 +19,7 @@ const ForgotPasswordForm = () => {
     }
 
     try {
-      await axios.post("https://backup-backend-j6zv.onrender.com/api/resetpasswordemail", { email });
+      await axios.post("https://habla-plus.xyz/api/resetpasswordemail", { email });
       setFeedback("✅ Reset email sent! Check your inbox.");
     } catch (err) {
       setFeedback(err.response?.data?.error || "❌ Failed to send reset email.");
