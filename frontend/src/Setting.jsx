@@ -61,7 +61,7 @@ export default function SettingsPage() {
     <div className="max-w-xl min-w-2xl bg-gray-300 rounded-2xl mx-auto p-6  relative space-y-6">
       <h1 className="text-3xl text-purple-400 font-bold text-center">Settings</h1>
       <button
-        className="w-10 h-10 absolute !p-3 left-2 top-2"
+        className="w-10 h-10 absolute !bg-black !p-3 left-2 top-2"
         onClick={()=>navigate("/Home")}
       ><FaHome />
       </button>

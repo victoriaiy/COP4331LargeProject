@@ -140,7 +140,7 @@ const Profile = () => {
       {/* Edit Profile Button */}
       <motion.button
         onClick={()=>navigate("/Home")}
-        className="mt-6 w-full bg-blue-500 text-white py-2 rounded-md shadow-md"
+        className="mt-6 w-full !bg-blue-500 text-white py-2 rounded-md shadow-md"
         whileHover={{ scale: 1.05 }}
       >
         Return to Home

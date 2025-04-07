@@ -21,7 +21,7 @@ const ProfileDropdown = () => {
         >
             <div className="bg-white absolute top-0 right-3 w-4 h-4 -translate-y-2 - rotate-45"></div>
             <button
-                className="block w-30 mt-3 py-2  text-mid"
+                className="block w-30 mt-3 py-2 !bg-black text-white text-mid"
                 onClick={() => {navigate("/Profile")
                 }}
             >

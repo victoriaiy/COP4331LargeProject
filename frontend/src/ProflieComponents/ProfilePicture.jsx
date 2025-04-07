@@ -31,16 +31,13 @@ const ProfilePicture = ({ src, username, size = 64, onUploadSuccess }) => {
       const data = await res.json();
 
       if (res.ok) {
-        alert("Profile picture updated!");
         // Optionally reload the page or update state
         if(onUploadSuccess) onUploadSuccess();
       } else {
         console.error("Upload failed:", data.error);
-        alert("Upload failed: " + data.error);
       }
     } catch (err) {
       console.error("Error uploading:", err);
-      alert("Upload error");
     }
   };
 

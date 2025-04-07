@@ -67,7 +67,7 @@ const Header = () => {
                 <motion.button
                     onClick={() => navigate("/Setting")}
                     whileHover={{ scale: 1.1 }}
-                    className="!text-white-400 text-2xl sm:text-3xl"
+                    className="!text-white-400 !bg-black text-2xl sm:text-3xl"
                 >
                     <FiSettings />
                 </motion.button>

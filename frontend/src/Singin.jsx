@@ -151,7 +151,7 @@ const Buttons = ({onCreateAccount, onSignIn}) =>{
          whileHover={{ scale: 1.1 }}
          whileTap={{ scale: 0.95 }}
             onClick={onSignIn}
-        className="  bg-green-500 text-white font-bold rounded-lg hover:bg-green-700 transition">
+        className="  !bg-black text-white font-bold rounded-lg hover:bg-green-700 transition">
           Sí, Sign In
         </motion.button>
         <motion.button 
@@ -159,7 +159,7 @@ const Buttons = ({onCreateAccount, onSignIn}) =>{
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
         
-        className=" bg-blue-500 text-white font-bold rounded-lg hover:bg-blue-700 transition">
+        className=" !bg-black text-white font-bold rounded-lg hover:bg-blue-700 transition">
           No, Create an Account
         </motion.button>
       </div>
